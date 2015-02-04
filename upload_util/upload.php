@@ -1,17 +1,27 @@
 <?php 
 
-ini_set('display_errors',1);
+
+ini_set('html_errors', '1');
+ini_set('file_uploads', '1');
+ini_set('track_errors', '1');
+ini_set('log_errors', '1');
+ini_set('display_errors','1');
 error_reporting(E_ALL);
 
+$rootpath = $_SERVER['DOCUMENT_ROOT'];
+include_once($rootpath . '/wordpress/wp-config.php');
 
 $files = json_encode($_FILES);
-echo "<script type='text/javascript'>alert('$files');</script>";
 
-$target_dir = "files/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$target_dir = wp_upload_dir();
+$target_file = $target_dir["path"] . '/' . basename($_FILES["fileToUpload"]["name"]);
+
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-// Check if image file is a actual image or fake image
+// This checks if image file is a actual image or fake image
+// But we want to allow arbitrary files...
+
+/*
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
@@ -22,6 +32,7 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 }
+*/
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
@@ -56,8 +67,6 @@ if ($uploadOk == 0) {
     }
 }
 
-$rootpath = $_SERVER['DOCUMENT_ROOT'];
-include_once($rootpath . '/wordpress/wp-config.php');
 
 // $filename should be the path to a file in the upload directory.
 // this is already established to be $target_file as per the upload above.
@@ -71,7 +80,7 @@ $filetype = wp_check_filetype( basename( $target_file ), null );
 
 
 // Get the path to the upload directory.
-$wp_upload_dir = wp_upload_dir();
+$wp_upload_dir = $target_dir;
 
 // Prepare an array of post data for the attachment.
 $attachment = array(
