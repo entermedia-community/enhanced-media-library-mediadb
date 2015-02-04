@@ -1,9 +1,11 @@
 <?php 
 
-$srcpath= $_POST['sourcepath'];  
-echo json_encode($_POST);
+ini_set('display_errors',1);
+error_reporting(E_ALL);
 
-echo json_encode($_FILES);
+
+$files = json_encode($_FILES);
+echo "<script type='text/javascript'>alert('$files');</script>";
 
 $target_dir = "files/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -53,5 +55,50 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+
+$rootpath = $_SERVER['DOCUMENT_ROOT'];
+include_once($rootpath . '/wordpress/wp-config.php');
+
+// $filename should be the path to a file in the upload directory.
+// this is already established to be $target_file as per the upload above.
+
+// The ID of the post this attachment is for.
+$parent_post_id = 1;
+
+
+// Check the type of file. We'll use this as the 'post_mime_type'.
+$filetype = wp_check_filetype( basename( $target_file ), null );
+
+
+// Get the path to the upload directory.
+$wp_upload_dir = wp_upload_dir();
+
+// Prepare an array of post data for the attachment.
+$attachment = array(
+        'guid'           => $wp_upload_dir['url'] . '/' . basename( $target_file ),
+        'post_mime_type' => $filetype['type'],
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $target_file ) ),
+        'post_content'   => '',
+        'post_type'     => 'attachment',
+        'post_status'    => 'inherit'
+);
+
+
+// Insert the attachment.
+$attach_id = wp_insert_attachment( $attachment, $target_file, $parent_post_id );
+
+echo '  attach id = ' . (string)$attach_id;
+
+// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+// Generate the metadata for the attachment, and update the database record.
+$attach_data = wp_generate_attachment_metadata( $attach_id, $target_file );
+wp_update_attachment_metadata( $attach_id, $attach_data );
+
+echo 'Finished uploading ' . $target_file;
+
+
+
 
 ?>
