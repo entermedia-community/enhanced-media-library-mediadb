@@ -27,7 +27,7 @@ $target_file = $_FILES["file"];
 
 
 $target_dir = wp_upload_dir();
-$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname);
+$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname;
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
