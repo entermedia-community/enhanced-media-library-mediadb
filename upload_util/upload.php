@@ -1,5 +1,10 @@
 <?php 
 
+ini_set('file_uploads', 1);
+ini_set('max_file_uploads', '9999999999M');
+ini_set('post_max_size', '2000M');
+ini_set('max_input_time', 3600);
+ini_set('max_execution_time', 3600);
 
 ini_set('html_errors', '1');
 ini_set('file_uploads', '1');
@@ -8,12 +13,14 @@ ini_set('log_errors', '1');
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 
+echo 'start';
+
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
 include_once($rootpath . '/wordpress/wp-config.php');
 
 // Make sure these are populated
 
-echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
+//echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
 
 
 $request = $_POST;
@@ -27,7 +34,8 @@ $target_file = $_FILES["file"];
 
 
 $target_dir = wp_upload_dir();
-$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname;
+//$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname;
+$target_file = $target_dir["path"] . '/' . $exportname;
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -72,12 +80,14 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
+    http_response_code(500);
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
     } else {
         echo "Sorry, there was an error uploading your file.";
+   		http_response_code(500);
     }
 }
 
