@@ -17,5 +17,6 @@ $result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
 
 $the_terms = the_terms($post_id, $taxonomy);
 
-echo json_encode($the_terms) . '\n' . json_encode($result);
+echo '<br> Taxonomy: ' . $taxonomy . '<br>' . 'Terms: ' . json_encode($the_terms) . '<br>' . 'Function result: ' . json_encode($result);
 
+?>

@@ -11,19 +11,33 @@ error_reporting(E_ALL);
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
 include_once($rootpath . '/wordpress/wp-config.php');
 
-$files = json_encode($_FILES);
+// Make sure these are populated
+
+echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
+
+
+$request = $_POST;
+$id = $request["assetid"];
+$sourcepath = $request["sourcepath"];
+$exportname = $request["exportname"];
+$libraries = $request["libraries"];
+$keywords = $request["keywords"];
+
+$target_file = $_FILES["file"];
+
 
 $target_dir = wp_upload_dir();
-$target_file = $target_dir["path"] . '/' . basename($_FILES["fileToUpload"]["name"]);
+$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname);
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
 // This checks if image file is a actual image or fake image
 // But we want to allow arbitrary files...
 
 /*
 if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    $check = getimagesize($_FILES["file"]["tmp_name"]);
     if($check !== false) {
         echo "File is an image - " . $check["mime"] . ".";
         $uploadOk = 1;
@@ -33,17 +47,17 @@ if(isset($_POST["submit"])) {
     }
 }
 */
+
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
+if ($_FILES["file"]["size"] > 500000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
-
 
 /*
 // Block certain file formats
@@ -60,19 +74,16 @@ if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
 // if everything is ok, try to upload file
 } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
 }
 
 
-// $filename should be the path to a file in the upload directory.
-// this is already established to be $target_file as per the upload above.
-
 // The ID of the post this attachment is for.
-$parent_post_id = 1;
+$parent_post_id = 0;
 
 
 // Check the type of file. We'll use this as the 'post_mime_type'.
@@ -95,6 +106,20 @@ $attachment = array(
 
 // Insert the attachment.
 $attach_id = wp_insert_attachment( $attachment, $target_file, $parent_post_id );
+
+// Now that we have the attachment id, we can add metadata to the attachment
+// use wp_set_object_terms() as in testmeta.php
+$post_id = $attach_id;
+$terms = $libraries;
+$taxonomy = 'library';
+$append = true;
+
+$result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
+
+$the_terms = the_terms($post_id, $taxonomy);
+
+echo '<br> Taxonomy: ' . $taxonomy . '<br>' . 'Terms: ' . json_encode($the_terms) . '<br>' . 'Function result: ' . json_encode($result);
+
 
 echo '  attach id = ' . (string)$attach_id;
 
