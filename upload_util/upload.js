@@ -29,7 +29,7 @@ $("#fileform").on('submit', function (event) {
   	}
 
   	// Add the file to the request.
-  	formData.append('file[]', file, file.name);
+  	formData.append('file', file, file.name);
 	}
 
 	// Set up the request.

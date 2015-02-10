@@ -13,8 +13,6 @@ ini_set("error_log","~/php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 
-echo 'start';
-
 error_log("a message brought to you by error logging", 0, "/home/fake/php.err");
 
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
@@ -22,7 +20,7 @@ include_once($rootpath . '/wordpress/wp-config.php');
 
 // Make sure these are populated
 
-echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
+//echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
 
 
 $request = $_POST;
@@ -32,12 +30,16 @@ $exportname = $request["exportname"];
 $libraries = $request["libraries"];
 $keywords = $request["keywords"];
 
-echo "$keywords[0]";
-echo "$id[0]";
 
 $target_dir = wp_upload_dir();
-//$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname;
-$target_file = $target_dir["path"] . '/' . $exportname;
+$base_dir = $target_dir["path"] . '/' . $sourcepath;
+
+if (!file_exists($base_dir)) {
+    mkdir($base_dir, 0777, true);
+}
+
+$target_file = $base_dir . '/' . $exportname;
+//$target_file = $target_dir["path"] . '/' . $exportname;
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -64,10 +66,10 @@ if (file_exists($target_file)) {
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["file"]["size"] > $post_max_size) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
+//if ($_FILES["file"]["size"] > $post_max_size) {
+//    echo "Sorry, your file is too large.";
+//    $uploadOk = 0;
+//}
 
 /*
 // Block certain file formats
@@ -78,6 +80,19 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 */
 
+$tmp_file = $_FILES["file"]["tmp_name"];
+$file_name = $_FILES["file"]["name"];
+$file_size = $_FILES["file"]["size"];
+if (is_array($tmp_file)) {
+	$tmp_file = $tmp_file[0];
+}
+if (is_array($file_name)) {
+    $file_name = $file_name[0];
+}
+if (is_array($file_size)) {
+    $file_size = $file_size[0];
+}
+
 $error = 1;
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
@@ -85,8 +100,8 @@ if ($uploadOk == 0) {
     http_response_code(500);
 // if everything is ok, try to upload file
 } else {
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
+    if (move_uploaded_file($tmp_file, $target_file)) {
+        echo "The file ". basename( $file_name). " has been uploaded.";
 		$error = 1;
     } else {
         echo "Sorry, there was an error uploading your file.";
@@ -125,22 +140,6 @@ $attachment = array(
 // Insert the attachment.
 $attach_id = wp_insert_attachment( $attachment, $target_file, $parent_post_id );
 
-// Now that we have the attachment id, we can add metadata to the attachment
-// use wp_set_object_terms() as in testmeta.php
-$post_id = $attach_id;
-$terms = $libraries;
-$taxonomy = 'library';
-$append = true;
-
-$result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
-
-$the_terms = the_terms($post_id, $taxonomy);
-
-echo '<br> Taxonomy: ' . $taxonomy . '<br>' . 'Terms: ' . json_encode($the_terms) . '<br>' . 'Function result: ' . json_encode($result);
-
-
-echo '  attach id = ' . (string)$attach_id;
-
 // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
 require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
@@ -148,7 +147,21 @@ require_once( ABSPATH . 'wp-admin/includes/image.php' );
 $attach_data = wp_generate_attachment_metadata( $attach_id, $target_file );
 wp_update_attachment_metadata( $attach_id, $attach_data );
 
-echo 'Finished uploading ' . $target_file;
+
+// Now that we have the attachment id, we can add metadata to the attachment
+// use wp_set_object_terms() as in testmeta.php
+$post_id = $attach_id;
+$terms = explode(",", $libraries);
+$taxonomy = 'library';
+$append = true;
+
+$result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
+
+$the_terms = the_terms($post_id, $taxonomy);
+
+//echo '<br> Taxonomy: ' . $taxonomy . '<br>' . 'Terms: ' . json_encode($the_terms) . '<br>' . 'Function result: ' . json_encode($result);
+
+//echo 'Finished uploading ' . $target_file;
 
 
 

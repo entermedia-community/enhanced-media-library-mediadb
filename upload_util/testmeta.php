@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
 include_once($rootpath . '/wordpress/wp-config.php');
 
-$post_id = 40;
+$post_id = 81;
 $terms = Array('Dogs', 'Fun');
 $taxonomy = 'library';
 $append = true;
