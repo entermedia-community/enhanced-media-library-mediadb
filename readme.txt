@@ -1,16 +1,19 @@
-=== Enhanced Media Library ===
-Contributors: webbistro
+=== EnterMedia MediaDB Enhanced Media Library ===
+Setup: Install the plugin and update the $entermediakey in upload.php to prime the plugin to received publish orders from EnterMedia. To publish from the DAM to Wordpress, first install this plugin, and then configure a publish destination in the DAM with a URL pointing to the upload.php file provided by this plugin.  Any assets published to this destination will be sent to WordPress media library.
+Contributors: entermedia-community
 Tags: media library, taxonomy, taxonomies, mime, mime type, attachment, media category, media categories, media tag, media tags, media taxonomy, media taxonomies, media filter, media organizer, file types, media types, media uploader, custom, media management, attachment management, files management, ux, user experience, wp-admin, admin, categories, category, filter,  image, images, media, upload
 Requires at least: 3.5
 Tested up to: 4.0.1
 Stable tag: 2.0.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Attributions: Plugin was built using the Enhanced Media Library plugin by webbistro
 
 
 
-A better management for WordPress Media Library
+WordPress integration for EnterMedia
 
+http://www.entermediasoftware.com
 
 
 == Description ==
