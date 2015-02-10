@@ -1,6 +1,6 @@
 <?php 
 
-$entermediakey = 'puppy';
+$entermediakey = null;
 
 // Check if plugin has been configured
 if ($entermediakey == null) {
@@ -23,7 +23,6 @@ ini_set('display_errors','1');
 error_reporting(E_ALL);
 
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
-include_once($rootpath . '/wordpress/wp-config.php');
 
 // Make sure these are populated
 
