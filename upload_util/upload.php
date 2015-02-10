@@ -1,26 +1,28 @@
 <?php 
-
+$post_max_size = 200000000;
 ini_set('file_uploads', 1);
-ini_set('max_file_uploads', '9999999999M');
-ini_set('post_max_size', '2000M');
+ini_set('post_max_size', $post_max_size);
 ini_set('max_input_time', 3600);
 ini_set('max_execution_time', 3600);
 
 ini_set('html_errors', '1');
 ini_set('file_uploads', '1');
 ini_set('track_errors', '1');
-ini_set('log_errors', '1');
+ini_set("log_errors", 1);
+ini_set("error_log","~/php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 
 echo 'start';
+
+error_log("a message brought to you by error logging", 0, "/home/fake/php.err");
 
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
 include_once($rootpath . '/wordpress/wp-config.php');
 
 // Make sure these are populated
 
-//echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
+echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
 
 
 $request = $_POST;
@@ -30,8 +32,8 @@ $exportname = $request["exportname"];
 $libraries = $request["libraries"];
 $keywords = $request["keywords"];
 
-$target_file = $_FILES["file"];
-
+echo "$keywords[0]";
+echo "$id[0]";
 
 $target_dir = wp_upload_dir();
 //$target_file = $target_dir["path"] . '/' . $sourcepath . '/' . $exportname;
@@ -62,7 +64,7 @@ if (file_exists($target_file)) {
     $uploadOk = 0;
 }
 // Check file size
-if ($_FILES["file"]["size"] > 500000) {
+if ($_FILES["file"]["size"] > $post_max_size) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
 }
@@ -76,7 +78,7 @@ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg
 }
 */
 
-
+$error = 1;
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
     echo "Sorry, your file was not uploaded.";
@@ -85,10 +87,16 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
         echo "The file ". basename( $_FILES["file"]["name"]). " has been uploaded.";
+		$error = 1;
     } else {
         echo "Sorry, there was an error uploading your file.";
    		http_response_code(500);
     }
+}
+
+// Tell the server that an error occurred.
+if ($error) {
+	header("HTTP/1.1 500 Internal Server Error");
 }
 
 
