@@ -9,6 +9,7 @@ $("#fileform").on('submit', function (event) {
 	var libraries = $("#libraries").val();
 	var keywords = $("#keywords").val();
 	var assetid = $("#assetid").val();
+	var accesskey = $('#accesskey').val();
 	var files = document.getElementById("fileholder").files;
 
 	var formData = new FormData();
@@ -18,6 +19,7 @@ $("#fileform").on('submit', function (event) {
 	formData.append('libraries', libraries);
 	formData.append('keywords', keywords);
 	formData.append('assetid', assetid);
+	formData.append('accesskey', accesskey);
 
 	// Loop through each of the selected files.
 	for (var i = 0; i < files.length; i++) {

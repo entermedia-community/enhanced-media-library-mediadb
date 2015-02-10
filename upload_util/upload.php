@@ -1,4 +1,13 @@
 <?php 
+
+$entermediakey = 'puppy';
+
+// Check if plugin has been configured
+if ($entermediakey == null) {
+	http_response_code(403);
+	throw new Exception('EnterMedia key is not configured. To use this plugin, please update the $entermediakey variable in upload.php and pass the same value as "accesskey" in your POST.');
+}
+
 $post_max_size = 200000000;
 ini_set('file_uploads', 1);
 ini_set('post_max_size', $post_max_size);
@@ -13,15 +22,10 @@ ini_set("error_log","~/php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 
-error_log("a message brought to you by error logging", 0, "/home/fake/php.err");
-
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
 include_once($rootpath . '/wordpress/wp-config.php');
 
 // Make sure these are populated
-
-//echo '<br>File Package: ' . json_encode($_FILES) . '<br>POST Parameters: ' . json_encode($_POST);
-
 
 $request = $_POST;
 $id = $request["assetid"];
@@ -29,57 +33,36 @@ $sourcepath = $request["sourcepath"];
 $exportname = $request["exportname"];
 $libraries = $request["libraries"];
 $keywords = $request["keywords"];
+$post_key = $request["accesskey"];
 
+// Check if POST is authenticated
+if ($post_key != $entermediakey) {
+	http_response_code(403);
+	throw new Exception("Permission denied. POST key does not match EnterMedia access key.");
+}
 
 $target_dir = wp_upload_dir();
+
+// Build final file directory from asset sourcepath
 $base_dir = $target_dir["path"] . '/' . $sourcepath;
 
 if (!file_exists($base_dir)) {
     mkdir($base_dir, 0777, true);
 }
 
+// Build final file name from asset exportname
 $target_file = $base_dir . '/' . $exportname;
-//$target_file = $target_dir["path"] . '/' . $exportname;
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-
-// This checks if image file is a actual image or fake image
-// But we want to allow arbitrary files...
-
-/*
-if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["file"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-}
-*/
 
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
     $uploadOk = 0;
 }
-// Check file size
-//if ($_FILES["file"]["size"] > $post_max_size) {
-//    echo "Sorry, your file is too large.";
-//    $uploadOk = 0;
-//}
 
-/*
-// Block certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-*/
-
+// Get file data from $_FILES object
 $tmp_file = $_FILES["file"]["tmp_name"];
 $file_name = $_FILES["file"]["name"];
 $file_size = $_FILES["file"]["size"];
@@ -149,7 +132,6 @@ wp_update_attachment_metadata( $attach_id, $attach_data );
 
 
 // Now that we have the attachment id, we can add metadata to the attachment
-// use wp_set_object_terms() as in testmeta.php
 $post_id = $attach_id;
 $terms = explode(",", $libraries);
 $taxonomy = 'library';
@@ -158,12 +140,5 @@ $append = true;
 $result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
 
 $the_terms = the_terms($post_id, $taxonomy);
-
-//echo '<br> Taxonomy: ' . $taxonomy . '<br>' . 'Terms: ' . json_encode($the_terms) . '<br>' . 'Function result: ' . json_encode($result);
-
-//echo 'Finished uploading ' . $target_file;
-
-
-
 
 ?>
