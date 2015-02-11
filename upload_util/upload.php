@@ -22,8 +22,12 @@ ini_set("error_log","~/php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 
-$rootpath = $_SERVER['DOCUMENT_ROOT'];
-require_once( $rootpath . '/wp-load.php' );
+//$rootpath = $_SERVER['DOCUMENT_ROOT'];
+//require_once( $rootpath . '/wp-load.php' );
+
+$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
+require_once( $parse_uri[0] . 'wp-load.php' );
+
 
 // Make sure these are populated
 
@@ -53,47 +57,44 @@ if (!file_exists($base_dir)) {
 // Build final file name from asset exportname
 $target_file = $base_dir . '/' . $exportname;
 
-$uploadOk = 1;
+$error = 0;
+
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
-    $uploadOk = 0;
+    $error = 1;
 }
-
-// Get file data from $_FILES object
-$tmp_file = $_FILES["file"]["tmp_name"];
-$file_name = $_FILES["file"]["name"];
-$file_size = $_FILES["file"]["size"];
-if (is_array($tmp_file)) {
-    $tmp_file = $tmp_file[0];
-}
-if (is_array($file_name)) {
-    $file_name = $file_name[0];
-}
-if (is_array($file_size)) {
-    $file_size = $file_size[0];
-}
-
-$error = 1;
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-    http_response_code(500);
-// if everything is ok, try to upload file
-} else {
+else
+{
+	// Get file data from $_FILES object
+	$tmp_file = $_FILES["file"]["tmp_name"];
+	$file_name = $_FILES["file"]["name"];
+	$file_size = $_FILES["file"]["size"];
+	if (is_array($tmp_file)) {
+	    $tmp_file = $tmp_file[0];
+	}
+	if (is_array($file_name)) {
+	    $file_name = $file_name[0];
+	}
+	if (is_array($file_size)) {
+	    $file_size = $file_size[0];
+	}
     if (move_uploaded_file($tmp_file, $target_file)) {
         echo "The file ". basename( $file_name). " has been uploaded.";
+    }
+    else
+    {
+    	echo "Could not move file";
         $error = 1;
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-        http_response_code(500);
     }
 }
 
 // Tell the server that an error occurred.
 if ($error) {
     header("HTTP/1.1 500 Internal Server Error");
+    http_response_code(500);
+    return;
 }
 
 
@@ -135,11 +136,14 @@ wp_update_attachment_metadata( $attach_id, $attach_data );
 // Now that we have the attachment id, we can add metadata to the attachment
 $post_id = $attach_id;
 $terms = explode(",", $libraries);
-$taxonomy = 'library';
+$taxonomy = 'media_category';
 $append = true;
 
 $result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
 
+echo "saved " . $libraries. "," . $post_id . "," . sizeof($terms)  . "," . $taxonomy  . "," . $append;
+
 $the_terms = the_terms($post_id, $taxonomy);
 
+echo "Finished";
 ?>
