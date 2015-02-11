@@ -1,0 +1,329 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Enhanced Media Library v1.0.4\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/enhanced-media-library\n"
+"POT-Creation-Date: 2014-09-04 18:35:44+00:00\n"
+"PO-Revision-Date: 2014-09-11 14:35+0200\n"
+"Last-Translator: WordPress UX Solutions <wordpressuxsolutions@gmail.com>\n"
+"Language-Team: De B.A.A.T. <de_baat@de-baat.nl>\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ eml
+#: core/options-pages.php:15
+msgid "Enhanced Media Library Options"
+msgstr "Enhanced Media Library Opties"
+
+# @ eml
+#: core/options-pages.php:16
+msgid "Media Settings"
+msgstr "Media Instellingen"
+
+# @ eml
+#: core/options-pages.php:24 core/options-pages.php:25
+#: core/options-pages.php:119
+msgid "Taxonomies"
+msgstr "Taxonomies"
+
+# @ eml
+#: core/options-pages.php:32 core/options-pages.php:33
+#: core/options-pages.php:388
+msgid "MIME Types"
+msgstr "MIME Types"
+
+# @ eml
+#: core/options-pages.php:67 core/options-pages.php:161
+#: core/options-pages.php:175 core/options-pages.php:239
+#: core/options-pages.php:312
+msgid "Edit"
+msgstr "Bewerk"
+
+# @ eml
+#: core/options-pages.php:68
+msgid "Close"
+msgstr "Sluit"
+
+# @ eml
+#: core/options-pages.php:69 core/options-pages.php:176
+#: core/options-pages.php:240
+msgid "View"
+msgstr "Bekijk"
+
+# @ eml
+#: core/options-pages.php:70 core/options-pages.php:177
+#: core/options-pages.php:241
+msgid "Update"
+msgstr "Werk bij"
+
+# @ eml
+#: core/options-pages.php:71 core/options-pages.php:178
+#: core/options-pages.php:242
+msgid "Add New"
+msgstr "Voeg Nieuw Toe"
+
+# @ eml
+#: core/options-pages.php:72 core/options-pages.php:179
+#: core/options-pages.php:243
+msgid "New"
+msgstr "Nieuw"
+
+# @ eml
+#: core/options-pages.php:73
+msgid "Name"
+msgstr "Naam"
+
+# @ eml
+#: core/options-pages.php:74 core/options-pages.php:180
+#: core/options-pages.php:244
+msgid "Parent"
+msgstr "Parent"
+
+# @ eml
+#: core/options-pages.php:75 core/options-pages.php:174
+#: core/options-pages.php:238
+msgid "All"
+msgstr "Allemaal"
+
+# @ eml
+#: core/options-pages.php:76 core/options-pages.php:181
+#: core/options-pages.php:245
+msgid "Search"
+msgstr "Zoek"
+
+# @ eml
+#: core/options-pages.php:78
+msgid ""
+"Taxonomy will be deleted permanently! Your media files will remain intacted, "
+"but all the connections with this taxonomy and its terms will be lost."
+msgstr ""
+"Taxonomy wordt voorgoed verwijderd! Je media bestanden blijven bestaan, maar "
+"alle connecties met deze taxonomy en de termen zullen verdwenen zijn."
+
+# @ eml
+#: core/options-pages.php:79
+msgid "There is already a taxonomy with the same name. Please chose other one."
+msgstr "Er is al een taxonomy met deze naam. Kies aub een andere."
+
+# @ eml
+#: core/options-pages.php:80 core/options-pages.php:226
+msgid "New Taxonomy"
+msgstr "Nieuwe Taxonomy"
+
+# @ eml
+#: core/options-pages.php:81
+msgid "Please choose Singular and Plural names for all your new taxomonies."
+msgstr ""
+"Kies aub Enkelvoudige en Meervoudige namen voor al je nieuwe taxonomies."
+
+# @ eml
+#: core/options-pages.php:82
+msgid "Please choose Singilar name for all your new taxomonies."
+msgstr "Kies aub Enkelvoudige naam voor al je nieuwe taxonomies."
+
+# @ eml
+#: core/options-pages.php:83
+msgid "Please choose Plural Name for all your new taxomonies."
+msgstr "Kies aub Meervoudige naam voor al je nieuwe taxonomies."
+
+# @ eml
+#: core/options-pages.php:85
+msgid "Warning! All your custom MIME Types will be deleted by this operation."
+msgstr ""
+"Waarschuwing! Al je persoonlijke MIME Types zullen door deze operatie "
+"verwijderd worden."
+
+# @ eml
+#: core/options-pages.php:86
+msgid "Please fill into all fields."
+msgstr "Vul aub alle velden in."
+
+# @ eml
+#: core/options-pages.php:87
+msgid "Duplicate extensions or MIME types. Please chose other one."
+msgstr "Dubbele extensies of MIME types. Kies aub een andere."
+
+# @ eml
+#: core/options-pages.php:111 core/options-pages.php:379
+msgid "You do not have sufficient permissions to access this page."
+msgstr "U hebt onvoldoende toegangsrechten voor deze pagina."
+
+# @ eml
+#: core/options-pages.php:135
+msgid "Media Taxonomies"
+msgstr "Media Taxonomies"
+
+# @ eml
+#: core/options-pages.php:139 core/options-pages.php:288
+msgid "Assign following taxonomies to Media Library:"
+msgstr "Ken de volgende taxonomies toe aan de Media Library:"
+
+# @ eml
+#: core/options-pages.php:158 core/options-pages.php:224
+#: core/options-pages.php:305
+msgid "Assign Taxonomy"
+msgstr "Toekennen Taxonomie"
+
+# @ eml
+#: core/options-pages.php:161 core/options-pages.php:312
+msgid "Edit Taxonomy"
+msgstr "Bewerk Taxonomie"
+
+# @ eml
+#: core/options-pages.php:164 core/options-pages.php:228
+msgid "Delete Taxonomy"
+msgstr "Verwijder Taxonomie"
+
+# @ eml
+#: core/options-pages.php:169 core/options-pages.php:233
+msgid "Labels"
+msgstr "Labels"
+
+# @ eml
+#: core/options-pages.php:171 core/options-pages.php:235
+msgid "Singular"
+msgstr "Enkelvoud"
+
+# @ eml
+#: core/options-pages.php:172 core/options-pages.php:236
+msgid "Plural"
+msgstr "Meervoud"
+
+# @ eml
+#: core/options-pages.php:173 core/options-pages.php:237
+msgid "Menu Name"
+msgstr "Menu Naam"
+
+# @ eml
+#: core/options-pages.php:186 core/options-pages.php:205
+#: core/options-pages.php:250 core/options-pages.php:315
+msgid "Settings"
+msgstr "Instellingen"
+
+# @ eml
+#: core/options-pages.php:188 core/options-pages.php:252
+msgid "Hierarchical"
+msgstr "Hiërarchisch"
+
+# @ eml
+#: core/options-pages.php:189 core/options-pages.php:253
+msgid "Column in Media Library"
+msgstr "Kolom in Media Library"
+
+# @ eml
+#: core/options-pages.php:190 core/options-pages.php:207
+#: core/options-pages.php:254 core/options-pages.php:317
+msgid "Filter in Media Library"
+msgstr "Filter in Media Library"
+
+# @ eml
+#: core/options-pages.php:191 core/options-pages.php:208
+#: core/options-pages.php:255 core/options-pages.php:318
+#, fuzzy
+msgid "Filter in Media Popup / Grid View"
+msgstr "Filter in Media Uploader"
+
+# @ eml
+#: core/options-pages.php:192 core/options-pages.php:256
+msgid "Show in Nav Menu"
+msgstr "Toon in Nav Menu"
+
+# @ eml
+#: core/options-pages.php:193 core/options-pages.php:257
+msgid "Remember terms order (sort)"
+msgstr "Onthoudt termen volgorde (sorteer)"
+
+# @ eml
+#: core/options-pages.php:194 core/options-pages.php:258
+msgid "Slug"
+msgstr "Slug"
+
+# @ eml
+#: core/options-pages.php:271
+msgid "Add New Taxonomy"
+msgstr "Voeg Nieuwe Taxonomie Toe"
+
+# @ eml
+#: core/options-pages.php:284
+msgid "Non-Media Taxonomies"
+msgstr "Niet-Media Taxonomies"
+
+# @ eml
+#: core/options-pages.php:389
+msgid "Add New MIME Type"
+msgstr "Voeg Nieuw MIME Type Toe"
+
+# @ eml
+#: core/options-pages.php:407 core/options-pages.php:464
+msgid "Extension"
+msgstr "Extensie"
+
+# @ eml
+#: core/options-pages.php:408 core/options-pages.php:465
+msgid "MIME Type"
+msgstr "MIME Type"
+
+# @ eml
+#: core/options-pages.php:409 core/options-pages.php:466
+msgid "Singular Label"
+msgstr "Enkelvoud Label"
+
+# @ eml
+#: core/options-pages.php:410 core/options-pages.php:467
+msgid "Plural Label"
+msgstr "Meervoud Label"
+
+# @ eml
+#: core/options-pages.php:411 core/options-pages.php:441
+#: core/options-pages.php:456 core/options-pages.php:468
+msgid "Add Filter"
+msgstr "Voeg Filter Toe"
+
+# @ eml
+#: core/options-pages.php:412 core/options-pages.php:442
+#: core/options-pages.php:457 core/options-pages.php:469
+msgid "Allow Upload"
+msgstr "Sta Upload Toe"
+
+# @ eml
+#: core/options-pages.php:458
+msgid "Delete MIME Type"
+msgstr "Verwijder MIME Type"
+
+# @ eml
+#: core/options-pages.php:475
+msgid "Restore default MIME Types"
+msgstr "Herstel default MIME Types"
+
+# @ eml
+#. Plugin Name of the plugin/theme
+msgid "Enhanced Media Library"
+msgstr "Enhanced Media Library"
+
+# @ eml
+#. Description of the plugin/theme
+msgid ""
+"This plugin will be handy for those who need to manage a lot of media files."
+msgstr ""
+"Deze plug-in is handig voor iedereen die veel media bestanden moet beheren."
+
+# @ eml
+#~ msgid "http://wordpressuxsolutions.com"
+#~ msgstr "http://wordpressuxsolutions.com"
+
+# @ eml
+#~ msgid "WordPress UX Solutions"
+#~ msgstr "WordPress UX Solutions"
+
+# @ eml
+#~ msgid "1.0.4"
+#~ msgstr "1.0.4"
