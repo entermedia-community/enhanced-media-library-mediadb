@@ -15,6 +15,20 @@ WordPress integration for EnterMedia
 
 http://www.entermediasoftware.com
 
+== How to Use with EnterMedia ==
+
+The Enhanced Media Library plugin provides many ways to categorize and deploy your media once it is already in WordPress, but what does the EnterMedia extension add?  Through the use of EnterMedia's publishing feature, assets from an EnterMedia DAM can be published directly to a WordPress site and some metadata (currently just libraries and keywords) can be sent along and automatically attached to the files as WordPress metadata.  This process can be completed as follows:
+
+0. Before you can get started, ensure that your EnterMedia DAM is operational and that this plugin has been imported to WordPress.
+
+1. The first step is to go to the plugin directory and navigate to upload_util/upload.php. The first line of code in this file is a reference to the access key you should be using to ensure that foreign data is not accepted. Change the value of $entermediakey to anything you want.
+
+2. In the EnterMedia Data Manager, create a new publish destination with a Path/URL pointing to the upload.php file included with this plugin (upload_util/upload.php) as it will be accessible in your WordPress site. This is most likely something like http://www.yourwpsiteroot.com/wp-content/plugins/entermediadb/upload_util/upload.php. Change the Access Key field to have the value you changed $entermediakey to. This will ensure that any POST data you send has the key that the plugin needs.
+
+3. Now, publish assets through the UI or create an Export Order using the JSON API, and publish to your new destination. This will add the assets to WordPress Media Library, including library metadata as a custom taxonomy. WordPress does further conversions on your images, so send the original format for best results.
+
+
+
 
 == Description ==
 

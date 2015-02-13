@@ -1,6 +1,6 @@
 <?php
 
-$entermediakey = "puppy";
+$entermediakey = null;
 
 // Check if plugin has been configured
 if ($entermediakey == null) {
