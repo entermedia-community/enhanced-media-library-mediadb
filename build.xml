@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="default" name="entermediadb-eml">
+
+	<target name="default" depends="clean, zip" />
+	<property name="appname" value="${ant.project.name}" />
+	<property name="base" location="${basedir}" />
+	<property name="builds" location="${basedir}/builds" />
+	<property name="branch" value="" />
+	<property name="majorversion" value="1.0" />
+	<property environment="env" />
+	<property name="version" value="${majorversion}" />
+
+	<target name="clean">
+	</target>
+
+	<!-- Just make a zip file that you unzip on top of your webapp -->
+	<target name="zip">
+		<mkdir dir="${builds}" />
+		<zip destfile="${builds}/entermediadb-eml.${version}.zip">
+			<zipfileset dir="${base}/plugins/entermediadb-eml" />
+		</zip>
+	</target>
+
+
+</project>
