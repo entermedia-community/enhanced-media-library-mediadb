@@ -1,15 +1,16 @@
 <?php
 /*
-Plugin Name: Enhanced Media Library
-Plugin URI: http://wpUXsolutions.com
-Description: This plugin will be handy for those who need to manage a lot of media files.
-Version: 2.0.3
-Author: wpUXsolutions
-Author URI: http://wpUXsolutions.com
+Plugin Name: EnterMedia MediaDB Enhanced Media Library
+Plugin URI: http://www.github.com/entermedia-community/entermediadb-eml.git
+Description: This plugin will be handy for those using EnterMedia and WordPress.
+Version: 1.0
+Author: EnterMedia and wpUXsolutions
+Author URI: http://www.entermediasoftware.com
 Text Domain: eml
 Domain Path: /languages
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
+Copyright 2015 EnterMedia Software (email: support@entermediasoftware.com)
 Copyright 2013-2014  wpUXsolutions  (email : wpUXsolutions@gmail.com)
 */
 

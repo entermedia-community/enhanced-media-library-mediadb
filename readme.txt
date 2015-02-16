@@ -21,11 +21,13 @@ The Enhanced Media Library plugin provides many ways to categorize and deploy yo
 
 0. Before you can get started, ensure that your EnterMedia DAM is operational and that this plugin has been imported to WordPress.
 
-1. The first step is to go to the plugin directory and navigate to upload_util/upload.php. The first line of code in this file is a reference to the access key you should be using to ensure that foreign data is not accepted. Change the value of $entermediakey to anything you want.
+1. To install the plugin, either unzip full contents to 'wp-content/plugins' or import the zip file using the WordPress UI. Once this is complete, navigate the the Plugins menu in WordPress and activate the EnterMedia MediaDB Enhanced Media Library plugin.
 
-2. In the EnterMedia Data Manager, create a new publish destination with a Path/URL pointing to the upload.php file included with this plugin (upload_util/upload.php) as it will be accessible in your WordPress site. This is most likely something like http://www.yourwpsiteroot.com/wp-content/plugins/entermediadb/upload_util/upload.php. Change the Access Key field to have the value you changed $entermediakey to. This will ensure that any POST data you send has the key that the plugin needs.
+2. The first step is to go to the plugin directory and navigate to upload_util/upload.php. The first line of code in this file is a reference to the access key you should be using to ensure that foreign data is not accepted. Change the value of $entermediakey to anything you want.
 
-3. Now, publish assets through the UI or create an Export Order using the JSON API, and publish to your new destination. This will add the assets to WordPress Media Library, including library metadata as a custom taxonomy. WordPress does further conversions on your images, so send the original format for best results.
+3. In the EnterMedia Settings -> Data Manager, select publishdestination from the table drop down. Create a new publish destination and edit the fields such that its Path/URL is the path to the upload.php file included with this plugin (upload_util/upload.php) as it will be accessible in your WordPress site. This is most likely something like http://www.yourwpsiteroot.com/wp-content/plugins/entermediadb/upload_util/upload.php. Change the Access Key field to have the value you changed $entermediakey to. This will ensure that any POST data you send has the key that the plugin needs. When you are finished editing the publish destination, use the save button at the bottom to save the results in the table.
+
+4. Now, publish assets through the UI or create an Export Order using the JSON API, and publish to your new destination. This will add the assets to WordPress Media Library, including library metadata as a custom taxonomy. WordPress does further conversions on your images, so send the original format for best results.
 
 
 
