@@ -443,5 +443,9 @@ function embed_asset_player( $atts ) {
 	return "<iframe src=\"" . $cdn_prefix . "/" . $mediadbappid . "/services/module/asset/players/play/" . $vars['assetid'] . ".html\" width=\"" . $vars['width'] . "\" height=\"" . $vars['height'] . "\" style=\"border:none\"></iframe>";
 }
 
-add_shortcode( 'emplayer', 'embed_asset_player' );
+function register_shortcodes() {
+	add_shortcode( 'emplayer', 'embed_asset_player' );
+}
+
+add_action( 'init', 'register_shortcodes' );
 ?>
