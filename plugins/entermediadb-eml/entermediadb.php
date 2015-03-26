@@ -3,7 +3,7 @@
 Plugin Name: EnterMedia MediaDB Enhanced Media Library
 Plugin URI: http://www.github.com/entermedia-community/entermediadb-eml.git
 Description: This plugin will be handy for those using EnterMedia and WordPress.
-Version: 1.0
+Version: 1.1
 Author: EnterMedia and wpUXsolutions
 Author URI: http://www.entermediasoftware.com
 Text Domain: eml
