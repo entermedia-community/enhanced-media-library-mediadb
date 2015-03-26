@@ -18,6 +18,8 @@ Copyright 2013-2014  wpUXsolutions  (email : wpUXsolutions@gmail.com)
 
 
 global $wp_version;
+$cdn_prefix = 'http://localhost:8080';
+$mediadbappid = 'emsite/mediadb';
 
 
 
@@ -429,4 +431,17 @@ function wpuxss_eml_on_activation() {
     }
 }
 
+function embed_asset_player( $atts ) {
+	global $mediadbappid;
+	global $cdn_prefix;
+	$vars = shortcode_atts( array(
+				'assetid' => null,
+				'width' => '100%',
+				'height' => '100%'
+			), $atts);
+
+	return "<iframe src=\"" . $cdn_prefix . "/" . $mediadbappid . "/services/module/asset/players/play/" . $vars['assetid'] . ".html\" width=\"" . $vars['width'] . "\" height=\"" . $vars['height'] . "\" style=\"border:none\"></iframe>";
+}
+
+add_shortcode( 'emplayer', 'embed_asset_player' );
 ?>
