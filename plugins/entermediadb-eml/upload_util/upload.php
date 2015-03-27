@@ -1,6 +1,6 @@
 <?php
 
-$entermediakey = null;
+global $entermediakey;
 
 // Check if plugin has been configured
 if ($entermediakey == null) {
