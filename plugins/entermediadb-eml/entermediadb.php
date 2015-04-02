@@ -14,13 +14,6 @@ Copyright 2015 EnterMedia Software (email: support@entermediasoftware.com)
 Copyright 2013-2014  wpUXsolutions  (email : wpUXsolutions@gmail.com)
 */
 
-/* EnterMedia plugin globals -- define your own data here */
-
-$cdn_prefix = 'http://entermediadb.net';	# Set this to your catalogsetting/cdn_prefix
-$mediadbappid = 'mysite/mediadb';			# Set this to your own mediadb location
-$entermediakey = null;						# Set this to the entermediakey for the user you are using for publisher
-
-/* End EnterMedia variable definitions */
 
 global $wp_version;
 

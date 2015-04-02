@@ -1,11 +1,20 @@
 <?php
 
-global $entermediakey;
+/* EnterMedia plugin variables -- define your own data here */
+
+$cdn_prefix = 'http://localhost';   		# Set this to your catalogsetting/cdn_prefix
+$mediadbappid = 'test_cat/mediadb';         # Set this to your own mediadb location
+$entermediakey = 'AKIAIHFKVZJBUPJOZKWA';    # Set this to the Access Key in your Wordpress publisher
+
+/* End EnterMedia variable definitions */
 
 // Check if plugin has been configured
-if ($entermediakey == null) {
+
+if ($entermediakey == null) { 
+
     http_response_code(403);
     throw new Exception('EnterMedia key is not configured. To use this plugin, please update the $entermediakey variable in upload.php and pass the same value as "accesskey" in your POST.');
+
 }
 
 $post_max_size = 200000000;
