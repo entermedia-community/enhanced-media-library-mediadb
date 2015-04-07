@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="default" name="entermediadb-eml">
+<project basedir="." default="default" name="entermediadb">
 
 	<target name="default" depends="clean, zip" />
 	<property name="appname" value="${ant.project.name}" />
@@ -18,9 +18,10 @@
 	<!-- Just make a zip file that you unzip on top of your webapp -->
 	<target name="zip">
 		<mkdir dir="${builds}" />
-		<zip destfile="${builds}/entermediadb-eml.${version}.zip">
-			<zipfileset dir="${base}/plugins/entermediadb-eml" />
+		<zip destfile="${builds}/entermediadb-${version}.zip">
+			<zipfileset dir="${base}/plugins/entermediadb" />
 		</zip>
+		<copy overwrite="true" file="${builds}/entermediadb-${version}.zip" tofile="${builds}/entermediadb.zip" />
 	</target>
 
 

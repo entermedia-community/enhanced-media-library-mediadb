@@ -15,7 +15,7 @@
             </tr>
             <tr valign="top">
                 <th scope="row"><label for="emdb_cdn_prefix">CDN Prefix</label></th>
-                <td><input type="text" name="emdb_cdn_prefix" id="emdb_cdn_prefix" value="<?php echo get_option('emdb_cdn_prefix'); ?>" /><span style="padding-left:5em;">corresponds to catalogsettings/cdn_prefix (set to FQDN of your EnterMedia server if unused)</span></td>
+                <td><input type="text" name="emdb_cdn_prefix" id="emdb_cdn_prefix" value="<?php echo get_option('emdb_cdn_prefix'); ?>" /><span style="padding-left:5em;">corresponds to catalogsettings/cdn_prefix (domain for your EnterMedia server if not set)</span></td>
             </tr>
         </table>
 

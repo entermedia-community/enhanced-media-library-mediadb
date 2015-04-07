@@ -435,7 +435,7 @@ function embed_asset_player( $atts ) {
 				'height' => '100%'
 			), $atts);
 
-	return "<iframe src=\"" . $cdn_prefix . "/" . $mediadbappid . "/services/module/asset/players/play/" . $vars['assetid'] . ".html\" width=\"" . $vars['width'] . "\" height=\"" . $vars['height'] . "\" style=\"border:none\"></iframe>";
+	return "<iframe src=\"" . $cdn_prefix . "/" . $mediadbappid . "/services/module/asset/players/play/" . $vars['assetid'] . ".html\" width=\"" . $vars['width'] . "\" height=\"" . $vars['height'] . "\" scrolling=\"no\" style=\"border:none\"></iframe>";
 }
 
 function register_shortcodes() {
