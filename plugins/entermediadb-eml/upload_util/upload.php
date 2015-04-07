@@ -1,20 +1,24 @@
 <?php
 
-/* EnterMedia plugin variables -- define your own data here */
+$wp_dir = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] )[0];
 
-$cdn_prefix = 'http://localhost';   		# Set this to your catalogsetting/cdn_prefix
-$mediadbappid = 'test_cat/mediadb';         # Set this to your own mediadb location
-$entermediakey = 'AKIAIHFKVZJBUPJOZKWA';    # Set this to the Access Key in your Wordpress publisher
+// Make sure this has access to WP scope
+require_once( $wp_dir . 'wp-load.php' );
+
+// include option.php to grab EMDB settings
+require_once( $wp_dir . 'wp-includes/option.php' );
+
+$cdn_prefix = get_option('emdb_cdn_prefix');   		# Set this to your catalogsetting/cdn_prefix
+$mediadbappid = get_option('emdb_mediadbappid');         # Set this to your own mediadb location
+$entermediakey = get_option('emdb_entermediakey');    # Set this to the Access Key in your Wordpress publisher
 
 /* End EnterMedia variable definitions */
 
 // Check if plugin has been configured
 
-if ($entermediakey == null) { 
-
+if (!$entermediakey) {
     http_response_code(403);
     throw new Exception('EnterMedia key is not configured. To use this plugin, please update the $entermediakey variable in upload.php and pass the same value as "accesskey" in your POST.');
-
 }
 
 $post_max_size = 200000000;
@@ -23,20 +27,15 @@ ini_set('post_max_size', $post_max_size);
 ini_set('max_input_time', 3600);
 ini_set('max_execution_time', 3600);
 
+/*
 ini_set('html_errors', '1');
 ini_set('file_uploads', '1');
 ini_set('track_errors', '1');
 ini_set("log_errors", 1);
-ini_set("error_log","~/php.err");
+ini_set("error_log","php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
-
-//$rootpath = $_SERVER['DOCUMENT_ROOT'];
-//require_once( $rootpath . '/wp-load.php' );
-
-$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
-require_once( $parse_uri[0] . 'wp-load.php' );
-
+*/
 
 // Make sure these are populated
 

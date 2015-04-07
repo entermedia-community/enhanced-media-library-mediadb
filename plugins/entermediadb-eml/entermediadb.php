@@ -2,8 +2,8 @@
 /*
 Plugin Name: EnterMedia MediaDB Enhanced Media Library
 Plugin URI: http://www.github.com/entermedia-community/entermediadb-eml.git
-Description: This plugin will be handy for those using EnterMedia and WordPress.
-Version: 1.1
+Description: This plugin will be handy for those wanting a way to serve their EnterMedia assets in Wordpress.
+Version: 1.3
 Author: EnterMedia and wpUXsolutions
 Author URI: http://www.entermediasoftware.com
 Text Domain: eml
@@ -35,8 +35,8 @@ if( is_admin() ) {
     include_once( 'core/options-pages.php' );
 }
 
-
-
+// Initialize Settings
+require_once(sprintf("%s/settings.php", dirname(__FILE__)));
 
 /**
  *  Load plugin text domain
@@ -427,8 +427,8 @@ function wpuxss_eml_on_activation() {
 }
 
 function embed_asset_player( $atts ) {
-	global $mediadbappid;
-	global $cdn_prefix;
+	$mediadbappid = get_option('emdb_mediadbappid');
+	$cdn_prefix = get_option('emdb_cdn_prefix');
 	$vars = shortcode_atts( array(
 				'assetid' => null,
 				'width' => '100%',
