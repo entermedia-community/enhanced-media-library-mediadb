@@ -1,6 +1,8 @@
 <?php
 
-$wp_dir = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] )[0];
+$dir_array = explode('wp-content', dirname(__FILE__) );
+
+$wp_dir = $dir_array[0];
 
 // Make sure this has access to WP scope
 require_once( $wp_dir . 'wp-load.php' );
@@ -8,7 +10,7 @@ require_once( $wp_dir . 'wp-load.php' );
 // include option.php to grab EMDB settings
 require_once( $wp_dir . 'wp-includes/option.php' );
 
-$cdn_prefix = get_option('emdb_cdn_prefix');   		# Set this to your catalogsetting/cdn_prefix
+$cdn_prefix = get_option('emdb_cdn_prefix');        # Set this to your catalogsetting/cdn_prefix
 $mediadbappid = get_option('emdb_mediadbappid');         # Set this to your own mediadb location
 $entermediakey = get_option('emdb_entermediakey');    # Set this to the Access Key in your Wordpress publisher
 
@@ -19,6 +21,7 @@ $entermediakey = get_option('emdb_entermediakey');    # Set this to the Access K
 if (!$entermediakey) {
     http_response_code(403);
     throw new Exception('EnterMedia key is not configured. To use this plugin, please update the $entermediakey variable in upload.php and pass the same value as "accesskey" in your POST.');
+	exit;
 }
 
 $post_max_size = 200000000;
@@ -32,7 +35,6 @@ ini_set('html_errors', '1');
 ini_set('file_uploads', '1');
 ini_set('track_errors', '1');
 ini_set("log_errors", 1);
-ini_set("error_log","php.err");
 ini_set('display_errors','1');
 error_reporting(E_ALL);
 */
@@ -42,6 +44,7 @@ error_reporting(E_ALL);
 $request = $_POST;
 $id = $request["assetid"];
 $sourcepath = $request["sourcepath"];
+$sourcepath = str_replace('.', '', $sourcepath);
 $exportname = $request["exportname"];
 $libraries = $request["libraries"];
 $keywords = $request["keywords"];
@@ -51,6 +54,7 @@ $post_key = $request["accesskey"];
 if ($post_key != $entermediakey) {
     http_response_code(403);
     throw new Exception("Permission denied. POST key does not match EnterMedia access key.");
+	exit;
 }
 
 $target_dir = wp_upload_dir();
@@ -75,25 +79,25 @@ if (file_exists($target_file)) {
 }
 else
 {
-	// Get file data from $_FILES object
-	$tmp_file = $_FILES["file"]["tmp_name"];
-	$file_name = $_FILES["file"]["name"];
-	$file_size = $_FILES["file"]["size"];
-	if (is_array($tmp_file)) {
-	    $tmp_file = $tmp_file[0];
-	}
-	if (is_array($file_name)) {
-	    $file_name = $file_name[0];
-	}
-	if (is_array($file_size)) {
-	    $file_size = $file_size[0];
-	}
+    // Get file data from $_FILES object
+    $tmp_file = $_FILES["file"]["tmp_name"];
+    $file_name = $_FILES["file"]["name"];
+    $file_size = $_FILES["file"]["size"];
+    if (is_array($tmp_file)) {
+        $tmp_file = $tmp_file[0];
+    }
+    if (is_array($file_name)) {
+        $file_name = $file_name[0];
+    }
+    if (is_array($file_size)) {
+        $file_size = $file_size[0];
+    }
     if (move_uploaded_file($tmp_file, $target_file)) {
         echo "The file ". basename( $file_name). " has been uploaded.";
     }
     else
     {
-    	echo "Could not move file";
+        echo "Could not move file";
         $error = 1;
     }
 }
@@ -102,7 +106,7 @@ else
 if ($error) {
     header("HTTP/1.1 500 Internal Server Error");
     http_response_code(500);
-    return;
+    exit;
 }
 
 
@@ -112,7 +116,6 @@ $parent_post_id = 0;
 
 // Check the type of file. We'll use this as the 'post_mime_type'.
 $filetype = wp_check_filetype( basename( $target_file ), null );
-
 
 // Get the path to the upload directory.
 $wp_upload_dir = $target_dir;
@@ -131,6 +134,7 @@ $attachment = array(
 
 
 // Insert the attachment.
+
 $attach_id = wp_insert_attachment( $attachment, $target_file, $parent_post_id );
 
 // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
@@ -153,5 +157,5 @@ echo "saved " . $libraries. "," . $post_id . "," . sizeof($terms)  . "," . $taxo
 
 $the_terms = the_terms($post_id, $taxonomy);
 
-echo "Finished";
 ?>
+
