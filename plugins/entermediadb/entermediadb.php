@@ -425,7 +425,7 @@ function wpuxss_eml_on_activation() {
         update_option( 'wpuxss_eml_taxonomies', $wpuxss_eml_taxonomies );
     }
 }
-
+ 
 function embed_asset_player( $atts ) {
 	$mediadbappid = get_option('emdb_mediadbappid');
 	$cdn_prefix = get_option('emdb_cdn_prefix');

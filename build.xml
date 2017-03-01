@@ -7,7 +7,7 @@
 	<property name="builds" location="${basedir}/builds" />
 	<property name="branch" value="" />
 	<property name="majorversion" value="1" />
-	<property name="minorversion" value="4" />
+	<property name="minorversion" value="5" />
 	<property name="debug" value="_debug" />
 	<property environment="env" />
 	<property name="version" value="${majorversion}.${minorversion}" />

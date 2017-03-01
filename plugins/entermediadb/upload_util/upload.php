@@ -46,9 +46,15 @@ $id = $request["assetid"];
 $sourcepath = $request["sourcepath"];
 $sourcepath = str_replace('.', '', $sourcepath);
 $exportname = $request["exportname"];
-$libraries = $request["libraries"];
+$collection = $request["collection"];
+$library = $request["library"];
 $keywords = $request["keywords"];
 $post_key = $request["accesskey"];
+
+$assettitle = $request["title"];
+$assetcaption = $request["caption"];
+$assetdescription = $request["description"];
+
 
 // Check if POST is authenticated
 if ($post_key != $entermediakey) {
@@ -74,33 +80,35 @@ $error = 0;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 // Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $error = 1;
+    //echo "Sorry, file already exists.";
+    //$error = 1;
+	$name = pathinfo($exportname, PATHINFO_FILENAME);
+	$extension = pathinfo($exportname, PATHINFO_EXTENSION);
+	$target_file = $base_dir . '/' . $name.'_copy.'.$extension;
+}
+
+// Get file data from $_FILES object
+$tmp_file = $_FILES["file"]["tmp_name"];
+$file_name = $_FILES["file"]["name"];
+$file_size = $_FILES["file"]["size"];
+if (is_array($tmp_file)) {
+	$tmp_file = $tmp_file[0];
+}
+if (is_array($file_name)) {
+	$file_name = $file_name[0];
+}
+if (is_array($file_size)) {
+	$file_size = $file_size[0];
+}
+if (move_uploaded_file($tmp_file, $target_file)) {
+	echo "The file ". basename( $file_name). " has been uploaded.";
 }
 else
 {
-    // Get file data from $_FILES object
-    $tmp_file = $_FILES["file"]["tmp_name"];
-    $file_name = $_FILES["file"]["name"];
-    $file_size = $_FILES["file"]["size"];
-    if (is_array($tmp_file)) {
-        $tmp_file = $tmp_file[0];
-    }
-    if (is_array($file_name)) {
-        $file_name = $file_name[0];
-    }
-    if (is_array($file_size)) {
-        $file_size = $file_size[0];
-    }
-    if (move_uploaded_file($tmp_file, $target_file)) {
-        echo "The file ". basename( $file_name). " has been uploaded.";
-    }
-    else
-    {
-        echo "Could not move file";
-        $error = 1;
-    }
+	echo "Could not move file";
+	$error = 1;
 }
+
 
 // Tell the server that an error occurred.
 if ($error) {
@@ -126,8 +134,9 @@ $attachment = array(
         'post_mime_type' => $filetype['type'],
         'guid'           => $wp_upload_dir['url'] . '/' . basename( $target_file ),
         'post_mime_type' => $filetype['type'],
-        'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $target_file ) ),
-        'post_content'   => '',
+        'post_title'     => preg_replace( '/\.[^.]+$/', '', $assettitle ),
+        'post_content'   => $assetdescription,
+		'post_excerpt'   => $assetcaption,
         'post_type'     => 'attachment',
         'post_status'    => 'inherit'
 );
@@ -144,16 +153,43 @@ require_once( ABSPATH . 'wp-admin/includes/image.php' );
 $attach_data = wp_generate_attachment_metadata( $attach_id, $target_file );
 wp_update_attachment_metadata( $attach_id, $attach_data );
 
-
-// Now that we have the attachment id, we can add metadata to the attachment
 $post_id = $attach_id;
-$terms = explode(",", $libraries);
+
+/*
+// set parent terms
+wp_set_object_terms( $post_id, $object_types, $taxonomy, true );
+// make terms hierarchial by objektart
+$term_parent = get_term_by( 'slug', $openimmo_data['objektart'], $taxonomy );
+$term_child  = get_term_by( 'slug', $openimmo_data['objektart_detail'], $taxonomy );
+delete_option( 'immomakler_object_type_children' ); // workaround for WordPress not updating this option properly
+wp_update_term( $term_child->term_id, $taxonomy, array( 'parent' => $term_parent->term_id ) );
+*/
+
+/*
+//Saving more than 1 collections
 $taxonomy = 'media_category';
-$append = true;
+$terms = explode(",", $collections);
+wp_set_object_terms($post_id, $terms, $taxonomy, true);
+echo "saved " . $collections. "," . $post_id . "," . sizeof($terms)  . "," . $taxonomy  . "," . $append;
+*/
+//Saving one library & one collection only
+$taxonomy = 'media_category';
+$terms = array($library, $collection);
+wp_set_object_terms($post_id, $terms, $taxonomy, true);
 
-$result = wp_set_object_terms($post_id, $terms, $taxonomy, $append);
+$term_parent = get_term_by( 'slug', $library, $taxonomy );
+$term_child  = get_term_by( 'slug', $collection, $taxonomy );
+delete_option( $taxonomy.'_children' ); // workaround for WordPress not updating this option properly
+wp_update_term( $term_child->term_id, $taxonomy, array( 'parent' => $term_parent->term_id ) );
 
-echo "saved " . $libraries. "," . $post_id . "," . sizeof($terms)  . "," . $taxonomy  . "," . $append;
+echo "Saved " . $library. "," .$collection .' Post id:'. $post_id . "," . sizeof($terms)  . "," . $taxonomy  . "," . $append."\n";
+/*
+//keywords
+$taxonomy = 'media_keywords';
+$terms = explode(",", $keywords);
+wp_set_object_terms($post_id, $terms, $taxonomy, true);
+echo "Keywords" . $keywords;
+*/ 
 
 $the_terms = the_terms($post_id, $taxonomy);
 
