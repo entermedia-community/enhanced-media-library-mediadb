@@ -2,16 +2,15 @@
 /*
 Plugin Name: EnterMedia MediaDB Enhanced Media Library
 Plugin URI: http://www.github.com/entermedia-community/entermediadb-eml.git
-Description: This plugin will be handy for those wanting a way to serve their EnterMedia assets in Wordpress.
-Version: 1.4
-Author: EnterMedia and wpUXsolutions
-Author URI: http://www.entermediasoftware.com
+Description: This plugin allows users to publish images and videos to Wordpress sites from the EnterMediaDB DAMS.
+Version: 1.5
+Author: EnterMediaDb
+Author URI: http://entermediadb.org
 Text Domain: eml
 Domain Path: /languages
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 Copyright 2015 EnterMedia Software (email: support@entermediasoftware.com)
-Copyright 2013-2014  wpUXsolutions  (email : wpUXsolutions@gmail.com)
 */
 
 
@@ -425,7 +424,7 @@ function wpuxss_eml_on_activation() {
         update_option( 'wpuxss_eml_taxonomies', $wpuxss_eml_taxonomies );
     }
 }
- 
+
 function embed_asset_player( $atts ) {
 	$mediadbappid = get_option('emdb_mediadbappid');
 	$cdn_prefix = get_option('emdb_cdn_prefix');
@@ -438,8 +437,33 @@ function embed_asset_player( $atts ) {
 	return "<iframe src=\"" . $cdn_prefix . "/" . $mediadbappid . "/services/module/asset/players/play/" . $vars['assetid'] . ".html\" width=\"" . $vars['width'] . "\" height=\"" . $vars['height'] . "\" scrolling=\"no\" style=\"border:none\"></iframe>";
 }
 
+function embed_collection( $atts ) {
+	$mediadbappid = get_option('emdb_mediadbappid');
+	$cdn_prefix = get_option('emdb_cdn_prefix');
+	$entermedia_key = get_option('emdb_entermediakey');
+	$vars = shortcode_atts( array(
+				'collectionid' => null,
+				'width' => '100%',
+				'height' => '100%'
+			), $atts);
+	
+	$collection_page_url = $cdn_prefix. '/' .$mediadbappid.'/services/module/asset/players/collections/embed/display/'.$vars['collectionid'].'.html?oemaxlevel=2&entermedia.key='.$entermedia_key;
+	
+	wp_enqueue_script( 'embed_collection_js_entermedia', $cdn_prefix. '/' .$mediadbappid.'/components/javascript/liveajax/liveajax.js' );
+	wp_enqueue_script( 'embed_collection_js_entermedia', $cdn_prefix. '/' .$mediadbappid.'/components/javascript/entermedia.js' );
+	wp_enqueue_script( 'embed_collection_js_uicomponents', $cdn_prefix. '/' .$mediadbappid.'/components/javascript/ui-components.js' );
+	wp_enqueue_script( 'embed_collection_js_results', $cdn_prefix. '/' .$mediadbappid.'/components/javascript/results.js' );
+
+	wp_enqueue_style( 'embed_collection_css_results', $cdn_prefix. '/' .$mediadbappid.'/theme/styles/pages/results.css' );
+	wp_enqueue_style( 'embed_collection_css_mediaplayer', $cdn_prefix. '/' .$mediadbappid.'/theme/styles/pages/mediaplayer.css' );
+		
+	//return $collection_page_url.'<br>'.file_get_contents($collection_page_url);
+	return file_get_contents($collection_page_url);
+}
+
 function register_shortcodes() {
 	add_shortcode( 'emplayer', 'embed_asset_player' );
+	add_shortcode( 'emcollection', 'embed_collection' );
 }
 
 add_action( 'init', 'register_shortcodes' );
